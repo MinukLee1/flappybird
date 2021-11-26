@@ -4,6 +4,7 @@ import 'package:flame/components/component.dart';
 import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
 
+import '../game_State.dart';
 import '../main.dart';
 
 class Floor extends Component{
@@ -23,8 +24,28 @@ class Floor extends Component{
 
   @override
   void update(double t) {
-    xPos -= t * 50;
-    if(xPos.abs() >= size.width) xPos = 0;
+
+    switch(gameState){
+//gamestate를 import 하여 각각의 case에 대해 설정 가능
+
+    //게임 중지
+      case GameState.pause:
+
+        xPos -= t * 50;
+        if(xPos.abs() >= size.width) xPos = 0;
+        break;
+
+    // 게임 플레이
+      case GameState.play:
+
+        xPos -= t * 50;
+        if(xPos.abs() >= size.width) xPos = 0;
+        break;
+
+    // 게임 오버
+      case GameState.gameover:
+        break;
+    }
 
   }
 

@@ -2,6 +2,7 @@ import 'package:flame/anchor.dart';
 import 'package:flame/components/animation_component.dart';
 import 'package:flame/flame.dart';
 
+import '../game_State.dart';
 import '../main.dart';
 
 final double Bird_W = 52;
@@ -24,17 +25,52 @@ class Bird extends AnimationComponent{
   void update(double t) {
     //애니메이션 이동
     super.update(t);
-    speedY += GRAVITY * t;
-    //시간 누적
+
     this.anchor = Anchor.center;
-    //중력의 거리공식 사용하여 중력가속도 구현
-    this.y += (speedY * t )/2;
-    this.x = size.width/2;
+
+    switch(gameState){
+//gamestate를 import 하여 각각의 case에 대해 설정 가능
+
+    //게임 중지
+      case GameState.pause:
+        this.y = size.height * 0.4;
+        this.x = size.width/2;
+        break;
+
+    // 게임 플레이
+      case GameState.play:
+        speedY += GRAVITY * t;
+        //시간 누적
+        this.anchor = Anchor.center;
+        //중력의 거리공식 사용하여 중력가속도 구현
+        this.y += (speedY * t )/2;
+        this.x = size.width/2;
+        break;
+
+    // 게임 오버
+      case GameState.gameover:
+        break;
+    }
   }
 
-
+  // 클릭 (탭) 메서드
   void onTap(){
-    this.speedY = -500;
-    Flame.audio.play("bubble_pop.mp3",volume: 0.5);
+
+    switch(gameState){
+
+      case GameState.pause:
+        this.speedY = -500;
+        Flame.audio.play("bubble_pop.mp3",volume: 0.5);
+        break;
+
+      case GameState.play:
+        this.speedY = -500;
+        Flame.audio.play("bubble_pop.mp3",volume: 0.5);
+        break;
+
+      case GameState.gameover:
+        break;
+    }
+
   }
 }
