@@ -36,6 +36,7 @@ class Titles extends Component{
 
       //게임 플레이중
       case GameState.play:
+
         break;
 
       case GameState.gameover:

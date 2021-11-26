@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/components/component.dart';
 import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
+import 'package:flappybird/options.dart';
 
 import '../main.dart';
 
@@ -45,6 +46,8 @@ class Pipeset extends Component{
       pipeLevel = Random().nextInt(5);
       if( pipeLevel == 0) pipeLevel = 6;
     }
-    pipePos -= t * 500;
+
+    //게임 스피드 설정
+    pipePos -= t * (30 + GAME_SPEED);
   }
 }

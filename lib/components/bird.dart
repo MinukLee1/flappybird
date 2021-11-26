@@ -1,6 +1,7 @@
 import 'package:flame/anchor.dart';
 import 'package:flame/components/animation_component.dart';
 import 'package:flame/flame.dart';
+import 'package:flappybird/options.dart';
 
 import '../game_State.dart';
 import '../main.dart';
@@ -39,7 +40,7 @@ class Bird extends AnimationComponent{
 
     // 게임 플레이
       case GameState.play:
-        speedY += GRAVITY * t;
+        speedY += (GRAVITY+ GAME_SPEED) * t;
         //시간 누적
         this.anchor = Anchor.center;
         //중력의 거리공식 사용하여 중력가속도 구현

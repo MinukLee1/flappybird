@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flame/components/component.dart';
 import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
+import 'package:flappybird/options.dart';
 
 import '../game_State.dart';
 import '../main.dart';
@@ -31,14 +32,14 @@ class Floor extends Component{
     //게임 중지
       case GameState.pause:
 
-        xPos -= t * 50;
+        xPos -= t * (30+GAME_SPEED);
         if(xPos.abs() >= size.width) xPos = 0;
         break;
 
     // 게임 플레이
       case GameState.play:
 
-        xPos -= t * 50;
+        xPos -= t *  (30+GAME_SPEED);
         if(xPos.abs() >= size.width) xPos = 0;
         break;
 
