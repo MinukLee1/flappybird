@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
@@ -19,13 +20,16 @@ class Pipeset extends Component{
   Sprite _pipeDown = Sprite("pipe_down.png");
 
   double pipePos = size.width;
-
+  // 기본 파이프 spawn 위치 : 1
+  int pipeLevel = 1;
 
   @override
   void render(Canvas c) {
-    _pipeUp.renderPosition(c,Position(size.width/2, pipeH/7*-6)
+    _pipeUp.renderPosition(c,Position(pipePos, pipeH/7*(pipeLevel-7))
       , size: Position(pipeW, pipeH));
-    _pipeDown.renderPosition(c,Position(size.width/2, pipeH/7*5)
+
+    //pipeLevel이 1일떄 gap 만큼 더해서 통로 생성
+    _pipeDown.renderPosition(c,Position(pipePos, pipeH/7* (pipeLevel + pipeGap))
         , size: Position(pipeW, pipeH));
   }
 
@@ -36,7 +40,11 @@ class Pipeset extends Component{
     //파이프의 가로길이만큼 작을시 .. -> 파이프가 한번다 화면에서 지나감(loop)
     if (pipePos < -pipeW) {
       pipePos = size.width;
+      //랜덤 파이브 출력 : 1,2,3,4,5,6 칸까지 설정
+
+      pipeLevel = Random().nextInt(5);
+      if( pipeLevel == 0) pipeLevel = 6;
     }
-    pipePos -= t * 50;
+    pipePos -= t * 500;
   }
 }
