@@ -12,27 +12,31 @@ import 'components/floor.dart';
 import 'package:flame/components/component.dart';
 import 'package:flappybird/main.dart';
 
+import 'components/score.dart';
+
 
 class MyGame extends BaseGame with TapDetector {
   Bird _bird;
   Floor _floor;
   Titles _titles;
   Pipeset _pipeSet;
+  Score _score;
 
   MyGame(){
     _bird = Bird();
     _floor = Floor();
     _titles = Titles();
     _pipeSet = Pipeset();
+    _score = Score();
 
     this
       ..add(
           SpriteComponent.fromSprite(size.width,size.height,Sprite("bg.png")))
-      ..add(_bird)
       ..add(_pipeSet)
+      ..add(_bird)
       ..add(_floor)
-      ..add(_titles);
-
+      ..add(_titles)
+      ..add(_score);
   }
 
   // 상황 업데이트 (현재 페이지)
@@ -40,24 +44,26 @@ class MyGame extends BaseGame with TapDetector {
   void update(double t) {
     super.update(t);
 
-    if(checkIf2ItemCollision(_bird.toRect(),_floor.toRect())){
-      print("Game Over !!");
-      gameState = GameState.gameover;
+    if (gameState == GameState.play) {
+      if (checkIf2ItemCollision(_bird.toRect(), _floor.toRect())) {
+        print("Game Over !!");
+        gameState = GameState.gameover;
+      }
+
+
+      // upper , down pipe와 collision시 gameover
+      if (checkIf2ItemCollision(_bird.toRect(), _pipeSet.getPipeUpRect())) {
+        print("Game Over !!");
+        gameState = GameState.gameover;
+      }
+
+      if (checkIf2ItemCollision(_bird.toRect(), _pipeSet.getPipeDownRect())) {
+        print("Game Over !!");
+        gameState = GameState.gameover;
+      }
+
+      checkIfBirdPassedPipe();
     }
-
-
-    // upper , down pipe와 collision시 gameover
-    if(checkIf2ItemCollision(_bird.toRect(),_pipeSet.getPipeUpRect())){
-      print("Game Over !!");
-      gameState = GameState.gameover;
-    }
-
-    if(checkIf2ItemCollision(_bird.toRect(),_pipeSet.getPipeDownRect())){
-      print("Game Over !!");
-      gameState = GameState.gameover;
-    }
-
-    checkIfBirdPassedPipe();
   }
 
   //탭( 터치) 할떄 오버라이드
@@ -75,6 +81,8 @@ class MyGame extends BaseGame with TapDetector {
 
       case GameState.gameover:
         gameState = GameState.pause;
+        //게임오버상태일떄 탭하면 score가 다시 reset
+        _score.resetScore();
         break;
     }
   }
@@ -86,14 +94,14 @@ class MyGame extends BaseGame with TapDetector {
   }
 
   // 새가 pipe를 지났는지 여부 메소드
-  bool checkIfBirdPassedPipe(){
+  void checkIfBirdPassedPipe(){
 
     if(_pipeSet.hasScored)
-      return false;
+      return ;
 
     if(_pipeSet.getPipeUpRect().right < _bird.toRect().left ){
-     print("Scored!");
-     _pipeSet.scoreUpdated();
+      _score.addScore();
+      _pipeSet.scoreUpdated();
     }
   }
 }
