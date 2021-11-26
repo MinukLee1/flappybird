@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/components/component.dart';
 import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
+import 'package:flappybird/game_State.dart';
 import 'package:flappybird/options.dart';
 
 import '../main.dart';
@@ -23,6 +24,8 @@ class Pipeset extends Component{
   double pipePos = size.width;
   // 기본 파이프 spawn 위치 : 1
   int pipeLevel = 1;
+  //새가 파이프를 지났는지 ->
+  bool hasScored = false;
 
   @override
   void render(Canvas c) {
@@ -38,16 +41,49 @@ class Pipeset extends Component{
   //파이프의 생성 메서드
   @override
   void update(double t) {
-    //파이프의 가로길이만큼 작을시 .. -> 파이프가 한번다 화면에서 지나감(loop)
-    if (pipePos < -pipeW) {
-      pipePos = size.width;
-      //랜덤 파이브 출력 : 1,2,3,4,5,6 칸까지 설정
 
-      pipeLevel = Random().nextInt(5);
-      if( pipeLevel == 0) pipeLevel = 6;
+    switch(gameState){
+
+      //pause일시, 가장 왼쪽으로 파이프이동
+      case GameState.pause:
+        pipePos = size.width;
+        hasScored = false;
+        break;
+
+      case GameState.play:
+      //파이프의 가로길이만큼 작을시 .. -> 파이프가 한번다 화면에서 지나감(loop)
+        if (pipePos < -pipeW) {
+          pipePos = size.width;
+          hasScored = false;
+          //랜덤 파이브 출력 : 1,2,3,4,5,6 칸까지 설정
+
+          pipeLevel = Random().nextInt(5);
+          if( pipeLevel == 0) pipeLevel = 6;
+        }
+
+        //게임 스피드 설정
+        pipePos -= t * (30 + GAME_SPEED);
+        break;
+
+        //nothing
+      case GameState.gameover:
+        break;
     }
 
-    //게임 스피드 설정
-    pipePos -= t * (30 + GAME_SPEED);
+
+  }
+
+  //파이프 접촉시 위/아래 설정
+  Rect getPipeUpRect(){
+    return Rect.fromLTWH(pipePos, pipeH/7*(pipeLevel-7), pipeW, pipeH);
+  }
+
+  Rect getPipeDownRect(){
+    return Rect.fromLTWH(pipePos, pipeH/7*(pipeLevel + pipeGap), pipeW, pipeH);
+  }
+
+  //scored가 되었을떄는 update를 멈춤
+  void scoreUpdated(){
+    hasScored = true;
   }
 }

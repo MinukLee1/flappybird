@@ -44,6 +44,20 @@ class MyGame extends BaseGame with TapDetector {
       print("Game Over !!");
       gameState = GameState.gameover;
     }
+
+
+    // upper , down pipe와 collision시 gameover
+    if(checkIf2ItemCollision(_bird.toRect(),_pipeSet.getPipeUpRect())){
+      print("Game Over !!");
+      gameState = GameState.gameover;
+    }
+
+    if(checkIf2ItemCollision(_bird.toRect(),_pipeSet.getPipeDownRect())){
+      print("Game Over !!");
+      gameState = GameState.gameover;
+    }
+
+    checkIfBirdPassedPipe();
   }
 
   //탭( 터치) 할떄 오버라이드
@@ -71,4 +85,15 @@ class MyGame extends BaseGame with TapDetector {
     return intersectedRect.width > 2 && intersectedRect.height > 2;
   }
 
+  // 새가 pipe를 지났는지 여부 메소드
+  bool checkIfBirdPassedPipe(){
+
+    if(_pipeSet.hasScored)
+      return false;
+
+    if(_pipeSet.getPipeUpRect().right < _bird.toRect().left ){
+     print("Scored!");
+     _pipeSet.scoreUpdated();
+    }
+  }
 }
