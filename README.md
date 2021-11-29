@@ -20,4 +20,8 @@ samples, guidance on mobile development, and a full API reference.
 ## Basic Loop
 ![image](https://user-images.githubusercontent.com/74412438/143818769-121123db-e3be-4768-b709-49b148fd64fb.png)
 
+## Directory structure
+![image](https://user-images.githubusercontent.com/74412438/143819257-8823fc40-5c41-4896-9586-6c5bdc890b06.png)
+
+
 
