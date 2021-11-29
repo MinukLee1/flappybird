@@ -3,6 +3,8 @@ class SpriteDimentions {
   static double numberWidth = 12.0;
   static double numberHeight = 18.0;
 }
+
+//score position
   class SpritePosition{
 
   static double zeroNumberX =496.0;
