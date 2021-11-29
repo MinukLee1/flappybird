@@ -21,7 +21,7 @@ samples, guidance on mobile development, and a full API reference.
 ![image](https://user-images.githubusercontent.com/74412438/143818769-121123db-e3be-4768-b709-49b148fd64fb.png)
 
 ## Directory structure
-![image](https://user-images.githubusercontent.com/74412438/143819257-8823fc40-5c41-4896-9586-6c5bdc890b06.png)
+![aa](https://user-images.githubusercontent.com/74412438/143819428-66b9788c-64d2-435e-bc93-19a0ad167661.png)
 
 
 
