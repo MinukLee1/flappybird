@@ -51,7 +51,7 @@ class MyGame extends BaseGame with TapDetector {
       }
 
 
-      // upper , down pipe와 collision시 gameover
+      //upper , down pipe와 collision시 gameover
       if (checkIf2ItemCollision(_bird.toRect(), _pipeSet.getPipeUpRect())) {
         print("Game Over !!");
         gameState = GameState.gameover;
