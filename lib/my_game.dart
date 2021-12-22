@@ -66,7 +66,7 @@ class MyGame extends BaseGame with TapDetector {
     }
   }
 
-  //탭( 터치) 할떄 오버라이드
+  // onTap( 터치) 할떄 오버라이드
   @override
   void onTap() {
     _bird.onTap();
